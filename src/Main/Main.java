@@ -21,6 +21,7 @@ public class Main implements Runnable {
 	static Snake snake = Snake.getInstance();
 	static Food food = Food.getFood();
 	static SnakeListener sl = new SnakeListener();
+	static boolean canChangeDirection = true;
 	public static void main(String[] args) {
 		JF= new JFrame();
 		JF.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -59,6 +60,7 @@ public class Main implements Runnable {
 			while(true){
 				snake.Move();
 				JP.repaint();
+				canChangeDirection = true;
 				Thread.sleep(60);
 			}
 		}catch(Exception e){
@@ -72,13 +74,15 @@ class SnakeListener implements KeyListener{
 
 	@Override
 	public void keyPressed(KeyEvent k) {
-		// TODO Auto-generated method stub
+		if(!Main.canChangeDirection)return;
 		switch(k.getKeyCode()){
 		case 38:snake.FirstChangeDirection(0);break;
 		case 39:snake.FirstChangeDirection(1);break;
 		case 40:snake.FirstChangeDirection(2);break;
 		case 37:snake.FirstChangeDirection(3);break;
 		}
+		//每次变向都必须显示出来才能进行下一次变向
+		Main.canChangeDirection = false;
 	}
 
 	@Override
